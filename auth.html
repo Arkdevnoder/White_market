@@ -10,6 +10,9 @@
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
 		<script>
+
+var user = "Arkdevnoder";
+var repository = "White_market";
 			
 Swal.fire({
 	title: 'Введите токен администрирования',
@@ -28,12 +31,16 @@ Swal.fire({
 });
 
 function auth(accessToken){
-	var uploadURL = "https://api.github.com/repos/Arkdevnoder/White_market/git/blobs?access_token=" + accessToken;
+	var uploadURL = "https://api.github.com/repos/"+user+"/"+repository;
 	$.ajax({
 		type: "POST",
 		url: uploadURL,
 		contentType: "application/json",
 		dataType: "json",
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader("Authorization", "Basic "+user+":"+accessToken);
+			xhr.setRequestHeader("X-Mobile", "false");
+		},
 		data: JSON.stringify({
 			"content": "aGVsbG8=",
 			"encoding": "utf-8"
