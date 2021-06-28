@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+		<div class="result"></div>
+		<script>
+			
+Swal.fire({
+	title: 'Введите токен администрирования',
+	input: 'text',
+	inputAttributes: {
+		autocapitalize: 'off'
+	},
+	showCancelButton: true,
+	confirmButtonText: 'Войти в панель',
+	preConfirm: (token) => {
+		return token;
+	}
+}).then((result) => {
+	auth(result);
+	console.log(result);
+});
+
+function auth(accessToken){
+	var uploadURL = "https://api.github.com/repos/Arkdevnoder/White_market/git/blobs?access_token=" + accessToken;
+	$.ajax({
+		type: "POST",
+		url: uploadURL,
+		contentType: "application/json",
+		dataType: "json",
+		data: JSON.stringify({
+			"content": "aGVsbG8=",
+			"encoding": "utf-8"
+		})
+	})
+	.done(function(data) {
+		$(".result").html(data);
+	});
+}
+		</script>
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+	</body>
+</html>
